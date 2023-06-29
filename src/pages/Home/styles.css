@@ -1,24 +1,18 @@
 .overlay {
   position: fixed;
-  top: 20%;
-  left: 5%;
-  width: 50%;
   z-index: 999;
 }
 
 @media screen and (max-width: 768px) {
   .overlay {
-    top: 10%;
+    top: 0%;
     left: 2%;
     width: 100%;
   }
 
-  .brand__logo {
-    margin-left: 2%;
-  }
-
-  .brand__tag {
-    display: none;
+  .brand * {
+    margin: 0;
+    padding: 10px;
   }
   
   .quote {
@@ -28,9 +22,9 @@
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .overlay {
-    top: 15%;
-    left: 3%;
-    width: 60%;
+    top: 0%;
+    left: 5%;
+    width: 80%;
   }
 
   .brand__name {
@@ -44,7 +38,7 @@
 
 @media screen and (min-width: 1025px) {
   .overlay {
-    top: 20%;
+    top: 10%;
     left: 5%;
     width: 50%;
   }
@@ -66,7 +60,6 @@
 .brand__logo {
   width: 2rem;
   height: 2rem;
-  margin-right: 10px;
 }
 
 .brand__name {
