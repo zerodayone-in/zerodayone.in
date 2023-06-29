@@ -7,16 +7,7 @@ function Grid() {
 
   useEffect(() => {
     const generateRandomColors = () => {
-      const colors = [
-        "#8F4F9E",
-        "#DA6882",
-        "#3532C0",
-        "#4A39B8",
-        "#6040B0",
-        // "#3532C0",
-        // "#7286A0",
-        // "#B58DAE", 
-      ];
+      const colors = ["#8F4F9E", "#DA6882", "#3532C0", "#4A39B8", "#6040B0"];
 
       const boxColors = Array(grid_size)
         .fill(null)
@@ -24,11 +15,9 @@ function Grid() {
           Array(grid_size)
             .fill(null)
             .map(() => {
-
               var seed = Math.floor(Math.random() * colors.length);
               console.log(seed);
               return colors[seed];
-
             })
         );
 

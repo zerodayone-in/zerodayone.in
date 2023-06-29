@@ -1,6 +1,7 @@
 import Grid from "../../components/Grid";
 import "./styles.css";
 import Logo from "../../assets/zerodayone-logo-light.svg";
+import { useEffect } from "react";
 
 function Overlay() {
   return (
@@ -16,7 +17,7 @@ function Overlay() {
         <h1 className="quote__text">All Good Things Take Time</h1>
       </div>
       <p className="description">
-        A creative studio that operates across multiple domains, bringing
+        A <b>creative studio</b> that operates across multiple domains, bringing
         together art, design, and technology to deliver innovative solutions at
         the cutting edge of creativity.
       </p>
@@ -25,6 +26,18 @@ function Overlay() {
 }
 
 function Home() {
+  useEffect(() => {
+    const handleScroll = () => {
+      // console.log(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div>
       <Grid />

@@ -1,9 +1,61 @@
 .overlay {
   position: fixed;
-  top: 25%;
+  top: 20%;
   left: 5%;
   width: 50%;
   z-index: 999;
+}
+
+@media screen and (max-width: 768px) {
+  .overlay {
+    top: 10%;
+    left: 2%;
+    width: 100%;
+  }
+
+  .brand__logo {
+    margin-left: 2%;
+  }
+
+  .brand__tag {
+    display: none;
+  }
+  
+  .quote {
+    margin: 10px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .overlay {
+    top: 15%;
+    left: 3%;
+    width: 60%;
+  }
+
+  .brand__name {
+    width: 30%;
+  }
+
+  .brand__tag {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .overlay {
+    top: 20%;
+    left: 5%;
+    width: 50%;
+  }
+
+  .brand__name {
+    width: 20%;
+  }
+
+  .brand__tag {
+    width: 70%;
+  }
 }
 
 .brand {
@@ -14,17 +66,16 @@
 .brand__logo {
   width: 2rem;
   height: 2rem;
-  width: 10%;
+  margin-right: 10px;
 }
 
 .brand__name {
-  width: 20%;
   color: white;
+  font-weight: 900;
 }
 
 .brand__tag {
   color: white;
-  width: 70%;
 }
 
 .quote {
