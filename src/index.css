@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/Poppins/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins-Black';
+  src: url('./assets/Poppins/Poppins-Bold.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+
+  margin: 0;
+  padding: 0;
+  background-color: #3532C0;
+  overflow: hidden;
+}
+

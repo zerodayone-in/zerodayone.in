@@ -1,0 +1,41 @@
+.overlay {
+  position: fixed;
+  top: 25%;
+  left: 5%;
+  width: 50%;
+  z-index: 999;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand__logo {
+  width: 2rem;
+  height: 2rem;
+  width: 10%;
+}
+
+.brand__name {
+  width: 20%;
+  color: white;
+}
+
+.brand__tag {
+  color: white;
+  width: 70%;
+}
+
+.quote {
+  color: #fff;
+  font-family: Poppins-Black;
+  font-size: 300%;
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: white;
+}
