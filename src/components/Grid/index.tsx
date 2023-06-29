@@ -7,24 +7,39 @@ function Grid() {
 
   useEffect(() => {
     const generateRandomColors = () => {
-      const colors = ["#8F4F9E", "#DA6882", "#3532C0", "#4A39B8", "#6040B0"];
+      const colors = ["#8F4F9E", "#3532C0", "#4A39B8", "#6040B0"];
+
+      const getRandomColor = () => {
+        const seed = Math.floor(Math.random() * colors.length);
+        return colors[seed];
+      };
 
       const boxColors = Array(grid_size)
         .fill(null)
         .map(() =>
           Array(grid_size)
             .fill(null)
-            .map(() => {
-              var seed = Math.floor(Math.random() * colors.length);
-              console.log(seed);
-              return colors[seed];
-            })
+            .map(() => getRandomColor())
         );
 
       setBoxColors(boxColors);
     };
 
-    generateRandomColors();
+    const timeoutId = setTimeout(() => {
+      generateRandomColors();
+      const intervalId = setInterval(() => {
+        generateRandomColors();
+      },250); // Set the intervfffal duration as needed (in milliseconds)
+
+      setTimeout(() => {
+        clearInterval(intervalId);
+      }, 700); // Stop the interval after 2 seconds
+
+    }, 0); // Run the initial randomization immediately
+
+    return () => {
+      clearTimeout(timeoutId); // Cleanup the timeout when the component unmounts
+    };
   }, [grid_size]);
 
   return (

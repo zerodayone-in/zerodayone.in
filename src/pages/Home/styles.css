@@ -60,6 +60,7 @@
 .brand__logo {
   width: 2rem;
   height: 2rem;
+  padding-right: 5%;
 }
 
 .brand__name {
@@ -68,7 +69,7 @@
 }
 
 .brand__tag {
-  color: white;
+  color: #e4ff7a
 }
 
 .quote {
