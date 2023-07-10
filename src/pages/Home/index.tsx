@@ -6,7 +6,6 @@ import { useEffect } from "react";
 function Overlay() {
   return (
     <div className="overlay">
-
       <div className="brand">
         <img className="brand__logo" src={Logo} alt="zerodayone logo" />
         <p className="brand__name">zerodayone</p>
@@ -18,7 +17,7 @@ function Overlay() {
       <div className="quote">
         <h1 className="quote__text">All Good Things Take Time</h1>
       </div>
-      
+
       <p className="description">
         A creative studio that operates across multiple domains, bringing
         together art, design, and technology to deliver innovative solutions at

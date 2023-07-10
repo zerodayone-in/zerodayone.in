@@ -1,12 +1,13 @@
 import "./styles.css";
+import Grid from "../../components/Grid/index";
 
 function Home() {
   return (
-		<div className="home">
-		5
-		</div>
-	);
+    <div className="wrapper">
+      <Grid className="grid" />
+      <div className="home">5</div>
+    </div>
+  );
 }
 
 export default Home;
-

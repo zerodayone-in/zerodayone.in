@@ -1,12 +1,23 @@
+.wrapper {
+	position: relative;
+}
+
+.grid {
+	z-index: 1;
+}
+
 .home {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-
-	color: #fff;
+  color: #fff;
   font-family: Poppins-Black;
   font-size: 400px;
   font-weight: 900;
   line-height: 0.9;
+	z-index: 2;
+	position:fixed;
+	top: 0;
+	width:100%;
 }
