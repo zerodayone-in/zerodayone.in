@@ -4,7 +4,7 @@ import Grid from "../../components/Grid/index";
 function Home() {
   return (
     <div className="wrapper">
-      <Grid className="grid" />
+      <Grid />
       <div className="home">5</div>
     </div>
   );

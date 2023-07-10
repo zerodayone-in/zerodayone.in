@@ -2,9 +2,6 @@
 	position: relative;
 }
 
-.grid {
-	z-index: 1;
-}
 
 .home {
   display: flex;
