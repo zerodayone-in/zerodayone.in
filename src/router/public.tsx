@@ -5,12 +5,11 @@ import {
 } from "react-router-dom";
 
 import App from "../pages/App/public";
+import { landingLoader, LandingPage } from "../pages/Landing/public"; 
 
 const publicRouter = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      {/* Public routes go here */}
-    </Route>
+		<Route path="/" element={<LandingPage />} loader={landingLoader} />
   )
 );
 
