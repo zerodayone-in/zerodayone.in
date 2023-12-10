@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./auth/reducer";
 import { globalSlice } from "./global/reducer";
+import { loaderSlice } from "./loader/reducer";
 
-const privateStore= configureStore({
+const store = configureStore({
   reducer: {
     global: globalSlice.reducer,
     auth: authSlice.reducer,
+		loader: loaderSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -13,7 +15,7 @@ const privateStore= configureStore({
     }),
 });
 
-export type PrivateStore = typeof privateStore;
-export type PrivateState = ReturnType<typeof privateStore.getState>;
-export type PrivateDispatch = typeof privateStore.dispatch;
-export default privateStore;
+export type Store = typeof store;
+export type State = ReturnType<typeof store.getState>;
+export type Dispatch = typeof store.dispatch;
+export default store;

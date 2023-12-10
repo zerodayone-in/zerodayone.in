@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { moduleName } from '../reducer'
 import { prepMutation } from '../../utils'
-import { refreshAccessToken, validate } from '../../auth/actions/register'
+import { refreshAccessToken, validate } from './register'
 
 import { editProfile, selectAvatar } from '../../../graphql/profile/mutations'
 import { ProfileMutationClient } from '../../../graphql/profile/client'

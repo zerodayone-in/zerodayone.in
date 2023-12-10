@@ -4,12 +4,13 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import App from "../pages/App/public";
 import { landingLoader, LandingPage } from "../pages/Landing/public"; 
+//import { authLoader, AuthPage } from "../pages/Auth/public";
 
 const publicRouter = createBrowserRouter(
   createRoutesFromElements(
 		<Route path="/" element={<LandingPage />} loader={landingLoader} />
+		//<Route path="/auth" element={<AuthPage />} loader={authLoader} />
   )
 );
 

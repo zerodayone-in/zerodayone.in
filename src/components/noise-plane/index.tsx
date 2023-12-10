@@ -3,15 +3,25 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import shaders from "./shaders";
 import { hexToThreeJSVector4 } from "../../utils";
-import toggleLoading from "../../redux/public/global/actions/toggleLoading";
+import { pushContent } from "../../redux/loader/reducer";
+import { useDispatch } from "react-redux";
 
 function NoisePlane(props: any) {
-	console.log("loading shader");
+  const dispatch = useDispatch();
   const meshRef = useRef<THREE.Mesh>();
-	toggleLoading({ loading: true });
+  let loading = true;
 
   useFrame(() => {
-		toggleLoading({ loading: false });
+
+    if (loading) {
+      dispatch(
+        pushContent({
+          content: "Compiling shaders",
+          progress: 100,
+        })
+      );
+      loading = false;
+    }
     const mesh = meshRef.current;
     if (
       mesh &&
@@ -21,12 +31,12 @@ function NoisePlane(props: any) {
       mesh.rotation.x = -0.7;
       mesh.rotation.z = -0.2;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_intensity.value = 0.5;
-      (mesh.material as THREE.ShaderMaterial).uniforms.u_speed.value = 0.2;
+      (mesh.material as THREE.ShaderMaterial).uniforms.u_speed.value = 0.05;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_rotate.value = true;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_scale.value = 1.5;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_time.value += 0.009;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_color.value =
-        hexToThreeJSVector4("#8a36a8");
+        hexToThreeJSVector4("#ffcc00");
       (mesh.material as THREE.ShaderMaterial).uniforms.u_color2.value =
         hexToThreeJSVector4("#3532C0");
       (mesh.material as THREE.ShaderMaterial).uniforms.u_noise.value = true;

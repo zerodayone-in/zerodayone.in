@@ -1,4 +1,10 @@
 import * as THREE from "three";
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+ 
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 export function hexToThreeJSVector4(hexColor: string) {
   if (hexColor[0] === "#") {

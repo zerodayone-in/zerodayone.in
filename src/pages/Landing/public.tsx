@@ -1,34 +1,41 @@
 import { Canvas } from "@react-three/fiber";
-import NoisePlane from "../../components/noise-plane";
+import { LoadingPage } from "../../pages/Loading/public.tsx";
 import "./styles.css";
+import { useDispatch } from "react-redux";
+import { pushContent } from "../../redux/loader/reducer.tsx";
+import { Suspense } from "react";
+import NoisePlane from "../../components/noise-plane";
 
 export const landingLoader = () => {
-	console.log("loading");
-	return (
-		<div className="h-screen w-full" id="landing">
-			<h1 className="text-6xl font-poppins font-bold text-white">Loading</h1>
-		</div>
-	);
-};
-
-export const LandingPage = () => {
-	console.log("loaded");
   return (
     <div className="h-screen w-full" id="landing">
-      <Canvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <NoisePlane position={[0, 0, 2]} />
-      </Canvas>
-      <div
-        className="fixed inset-0 flex flex-col justify-center items-center w-full h-screen"
-        id="overlay"
-      >
-				<h1 className="text-6xl font-poppins font-bold text-white"></h1>
-				<h1 className="text-6xl font-poppins font-bold text-white"></h1>
-	
-      </div>
+      <h1 className="text-6xl font-poppins font-bold text-white">Loading</h1>
     </div>
   );
 };
 
+export const LandingPage = () => {
+  const dispatch = useDispatch();
+
+  dispatch(
+    pushContent({
+      content: "Compiling shaders",
+      progress: 0,
+    })
+  );
+
+  return (
+    <>
+      <Suspense fallback={<LoadingPage />}>
+        <div className="h-screen w-full" id="landing">
+          <Canvas>
+            <ambientLight />
+            <pointLight position={[10, 10, 10]} />
+            <NoisePlane position={[0, 0, 2]} />
+          </Canvas>
+        </div>
+      </Suspense>
+      <LoadingPage />
+    </>
+  );
+};
