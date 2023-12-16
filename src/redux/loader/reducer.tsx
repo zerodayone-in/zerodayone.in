@@ -24,10 +24,12 @@ export const loaderSlice = createSlice({
           content: action.payload.content,
           progress: action.payload.progress,
           error: null,
+          height: state.calls,
         });
         state.loading = true;
       } else {
         let found = false;
+        state.progress = 0;
 
         for (let i = 0; i < state.items.length; i++) {
           if (state.items[i].content === action.payload.content) {
@@ -44,6 +46,7 @@ export const loaderSlice = createSlice({
             content: action.payload.content,
             progress: action.payload.progress,
             error: null,
+            height: state.calls,
           });
         }
 

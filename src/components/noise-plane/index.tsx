@@ -10,10 +10,11 @@ function NoisePlane(props: any) {
   const dispatch = useDispatch();
   const meshRef = useRef<THREE.Mesh>();
   let loading = true;
+  let frameCount = 0;
 
   useFrame(() => {
-
-    if (loading) {
+    frameCount++;
+    if (loading && frameCount > 100) {
       dispatch(
         pushContent({
           content: "Compiling shaders",
@@ -28,17 +29,17 @@ function NoisePlane(props: any) {
       mesh.material &&
       (mesh.material as THREE.ShaderMaterial).uniforms
     ) {
-      mesh.rotation.x = -0.7;
-      mesh.rotation.z = -0.2;
-      (mesh.material as THREE.ShaderMaterial).uniforms.u_intensity.value = 0.5;
-      (mesh.material as THREE.ShaderMaterial).uniforms.u_speed.value = 0.05;
+      mesh.rotation.x = -0.5;
+      mesh.rotation.z = 0;
+      (mesh.material as THREE.ShaderMaterial).uniforms.u_intensity.value = 0.1;
+      (mesh.material as THREE.ShaderMaterial).uniforms.u_speed.value = 0.1;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_rotate.value = true;
-      (mesh.material as THREE.ShaderMaterial).uniforms.u_scale.value = 1.5;
+      (mesh.material as THREE.ShaderMaterial).uniforms.u_scale.value = 2;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_time.value += 0.009;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_color.value =
-        hexToThreeJSVector4("#ffcc00");
-      (mesh.material as THREE.ShaderMaterial).uniforms.u_color2.value =
         hexToThreeJSVector4("#3532C0");
+      (mesh.material as THREE.ShaderMaterial).uniforms.u_color2.value =
+        hexToThreeJSVector4("#FFF847");
       (mesh.material as THREE.ShaderMaterial).uniforms.u_noise.value = true;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_noise_color.value =
         hexToThreeJSVector4("#ff0000");
@@ -47,7 +48,7 @@ function NoisePlane(props: any) {
 
   return (
     <mesh ref={meshRef} {...props}>
-      <planeGeometry args={[20, 5, 2800, 2800]} />
+      <planeGeometry args={[20, 5, 2800, 150]} />
       <shaderMaterial
         attach="material"
         uniforms={shaders.uniforms}
