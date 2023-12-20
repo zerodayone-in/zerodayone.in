@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { LoadingPage } from "../../pages/Loading/public.tsx";
 import { useDispatch } from "react-redux";
 import { pushContent } from "../../redux/loader/reducer.tsx";
-import { Suspense } from "react";
+import { Suspense} from "react";
 import LandingContent from "../../pages/Landing/landing-content.tsx";
 import NoisePlane from "../../components/noise-plane";
 import "./styles.css";
@@ -36,7 +36,7 @@ export const LandingPage = () => {
         </Suspense>
         <div
           id="overlay"
-          className="fixed inset-0 flex flex-col justify-center items-center w-full h-screen"
+          className="inset-0 flex flex-col justify-center items-center"
         >
           <LandingContent />
         </div>

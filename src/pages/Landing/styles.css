@@ -7,7 +7,8 @@
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	margin-top: -80px;
+	margin-top: 0px;
+	pointer-events: none;
 }
 
 #landing__brand {
@@ -54,16 +55,30 @@
 #landing__navigator--routes li{
 	width: 15%;
 	font-size: 14px;
+	pointer-events: all;
 }
 
 #landing__cta {
 	margin-top: 10px;
 	width: 60%;
 	height: 150px;
-	border: 1px solid #FFF847;
-	background-color: #3532C0;
+	/* background-color: #3532C0; */
 	display: flex;
 	align-items:center;
+}
+
+#landing__cta--description {
+	background-color: #3532C0;
+	height: 100%;
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	border: 1px solid #FFF847;
+}
+
+#landing__cta--actions {
+	border: 1px solid #FFF847;
+	margin-left: 3px;
 }
 
 #landing__cta--actions__community {
@@ -71,10 +86,12 @@
 	color: #1E1E1E;
 	box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
 	border-radius: 5px;
+	pointer-events: all;
 }
 
 #landing__cta--actions__login {
 	color: #000000;
 	box-shadow: 4px 4px 0px rgb(0, 0, 0);
 	border-radius: 5px;
+	pointer-events: all;
 }

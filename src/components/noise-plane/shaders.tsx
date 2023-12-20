@@ -3,7 +3,7 @@ import * as THREE from 'three';
 const shaders = {
 	uniforms: {
 		u_resolution: { value: [window.innerWidth, window.innerHeight] },
-		u_mouse: { value: [0, 0] },
+		u_mouse: { value: new THREE.Vector3(0.0, 0.0, 0.0) },
 		u_time: { value: 0 },
 		u_intensity: { value: 0.5 },
 		u_color: { value: new THREE.Vector4(0.2, 0.8, 0.5, 1.0) },
@@ -101,6 +101,8 @@ const shaders = {
 	uniform float u_speed;
 	uniform bool u_rotate;
 	uniform float u_scale;
+	uniform vec3 u_mouse;
+	uniform vec2 u_resolution;
 
 	varying vec2 vUv;
 	varying float vDisplacement;
@@ -2264,35 +2266,52 @@ const shaders = {
 	}
 	#endif
 
-
-		void main() {
-			vUv = uv;
-			pos = position;
-			
-			vDisplacement = cnoise(position*(0.0 + 1.0/u_scale) + vec3(u_time*u_speed));
-			
+	void main() {
+		vUv = uv;
+		pos = position;
+	
+		// Calculate the displacement using Perlin noise
+		vDisplacement = cnoise(position * (0.0 + 1.0 / u_scale) + vec3(u_time * u_speed));
+	
+		// Check if the vertex is within the radius around the mouse position
+		float mouseRadius = 0.3;
+		// vec3 mousePos = vec3(u_mouse.x, u_mouse.y, 0.0); // Assuming u_mouse.z is not needed
+		vec3 mousePos = vec3(clamp(u_mouse.x, -30.0, 30.0) / 2.0,clamp(u_mouse.z, -30.0, 30.0) / 2.0, clamp(u_mouse.y, -30.0, 30.0) / 2.0) ; // Assuming u_mouse.z is not needed
+	
+		if (length(position.xy - mousePos.xy) >= mouseRadius) {
+			// Apply the wave pattern only if outside the mouse radius
 			float frequency = 4.0;
 			float stripes = frequency * position.y;
 			float rounded = floor(stripes);
-			
-			if (mod(rounded, 2.0) == 0.0){
+	
+			if (mod(rounded, 2.0) == 0.0) {
 				vDisplacement *= 2.2;
 			}
-			
-			vec3 newPosition = position + normal * vDisplacement*u_intensity;
-			
-			vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
-			vec4 viewPosition = viewMatrix * modelPosition;
-			vec4 projectedPosition = projectionMatrix * viewPosition;
-
-			gl_Position = projectedPosition;
+		} else {
+			vDisplacement = 1.5 ;//* sin(position.x * position.y);
 		}
-		
+	
+		// Apply the displacement to the position
+		vec3 newPosition = position + normal * vDisplacement * u_intensity;
+	
+		// Transform the position through matrices
+		vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
+		vec4 viewPosition = viewMatrix * modelPosition;
+		vec4 projectedPosition = projectionMatrix * viewPosition;
+	
+		// Set the final position for rendering
+		gl_Position = projectedPosition;
+	}
+	
+	
+	
+	
+	
 	`,
 	resolved_fragment: `
 
 	uniform vec2 u_resolution;
-	uniform vec2 u_mouse;
+	uniform vec3 u_mouse;
 	uniform float u_time;
 	uniform float u_intensity;
 	uniform vec4 u_color;
