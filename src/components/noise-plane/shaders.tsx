@@ -1,20 +1,20 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
 const shaders = {
-	uniforms: {
-		u_resolution: { value: [window.innerWidth, window.innerHeight] },
-		u_mouse: { value: new THREE.Vector3(0.0, 0.0, 0.0) },
-		u_time: { value: 0 },
-		u_intensity: { value: 0.5 },
-		u_color: { value: new THREE.Vector4(0.2, 0.8, 0.5, 1.0) },
-		u_color2: { value: new THREE.Vector4(0.8, 0.2, 0.5, 1.0) },
-		u_speed: { value: 0.8 },
-		u_rotate: { value: false },
-		u_scale: { value: 1.5 },
-		u_noise: { value: true },
-		u_noise_color: { value: new THREE.Vector3(0.5, 0.5, 0.5) }
-	},
-	vertex: `
+  uniforms: {
+    u_resolution: { value: [window.innerWidth, window.innerHeight] },
+    u_mouse: { value: new THREE.Vector3(0.0, 0.0, 0.0) },
+    u_time: { value: 0 },
+    u_intensity: { value: 0.5 },
+    u_color: { value: new THREE.Vector4(0.2, 0.8, 0.5, 1.0) },
+    u_color2: { value: new THREE.Vector4(0.8, 0.2, 0.5, 1.0) },
+    u_speed: { value: 0.8 },
+    u_rotate: { value: false },
+    u_scale: { value: 1.5 },
+    u_noise: { value: true },
+    u_noise_color: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
+  },
+  vertex: `
 	uniform float u_intensity;
 	uniform float u_time;
 	uniform float u_speed;
@@ -55,7 +55,7 @@ const shaders = {
 		gl_Position = projectedPosition;
 	}
 	`,
-	fragment: `
+  fragment: `
 	uniform vec2 u_resolution;
 	uniform vec2 u_mouse;
 	uniform float u_time;
@@ -94,7 +94,7 @@ const shaders = {
 		gl_FragColor = color;
 	}
 	`,
-	resolved_vertex: `
+  resolved_vertex: `
 
 	uniform float u_intensity;
 	uniform float u_time;
@@ -2276,7 +2276,7 @@ const shaders = {
 		// Check if the vertex is within the radius around the mouse position
 		float mouseRadius = 0.3;
 		// vec3 mousePos = vec3(u_mouse.x, u_mouse.y, 0.0); // Assuming u_mouse.z is not needed
-		vec3 mousePos = vec3(clamp(u_mouse.x, -30.0, 30.0) / 2.0,clamp(u_mouse.z, -30.0, 30.0) / 2.0, clamp(u_mouse.y, -30.0, 30.0) / 2.0) ; // Assuming u_mouse.z is not needed
+		vec3 mousePos = vec3(clamp(u_mouse.x, -30.0, 30.0) / 2.0,clamp(u_mouse.z, -30.0, 30.0) / 2.0, clamp(u_mouse.z, -30.0, 30.0) / 2.0) ; // Assuming u_mouse.z is not needed
 	
 		if (length(position.xy - mousePos.xy) >= mouseRadius) {
 			// Apply the wave pattern only if outside the mouse radius
@@ -2288,7 +2288,7 @@ const shaders = {
 				vDisplacement *= 2.2;
 			}
 		} else {
-			vDisplacement = 1.5 ;//* sin(position.x * position.y);
+			vDisplacement = 0.1 ;//* sin(position.x * position.y);
 		}
 	
 		// Apply the displacement to the position
@@ -2308,7 +2308,7 @@ const shaders = {
 	
 	
 	`,
-	resolved_fragment: `
+  resolved_fragment: `
 
 	uniform vec2 u_resolution;
 	uniform vec3 u_mouse;
@@ -2838,8 +2838,7 @@ const shaders = {
 			gl_FragColor = color;
 		}
 		
-	`
+	`,
 };
 
 export default shaders;
-

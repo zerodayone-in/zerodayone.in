@@ -44,7 +44,7 @@ function NoisePlane(props: any) {
     ) {
       mesh.rotation.x = -0.5;
       mesh.rotation.z = 0;
-      (mesh.material as THREE.ShaderMaterial).uniforms.u_intensity.value = 0.5;
+      (mesh.material as THREE.ShaderMaterial).uniforms.u_intensity.value = 0.01;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_speed.value = 0.1;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_rotate.value = true;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_scale.value = 2;
@@ -58,7 +58,6 @@ function NoisePlane(props: any) {
         hexToThreeJSVector4("#ff0000");
 
       const mouseCoordinates = convertPointerToMeshCoordinates(pointer, mesh, camera);
-      console.log(mouseCoordinates);
 
       (mesh.material as THREE.ShaderMaterial).uniforms.u_mouse.value = new THREE.Vector3(
         mouseCoordinates.x,
