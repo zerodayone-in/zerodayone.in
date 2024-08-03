@@ -50,12 +50,12 @@ function NoisePlane(props: any) {
       (mesh.material as THREE.ShaderMaterial).uniforms.u_scale.value = 2;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_time.value = clock.getElapsedTime();
       (mesh.material as THREE.ShaderMaterial).uniforms.u_color.value =
-        hexToThreeJSVector4("#3532C0");
+        hexToThreeJSVector4("#F8E559");
       (mesh.material as THREE.ShaderMaterial).uniforms.u_color2.value =
-        hexToThreeJSVector4("#FFF847");
+        hexToThreeJSVector4("#3532C0");
       (mesh.material as THREE.ShaderMaterial).uniforms.u_noise.value = true;
       (mesh.material as THREE.ShaderMaterial).uniforms.u_noise_color.value =
-        hexToThreeJSVector4("#ff0000");
+        hexToThreeJSVector4("#11009E");
 
       const mouseCoordinates = convertPointerToMeshCoordinates(pointer, mesh, camera);
 

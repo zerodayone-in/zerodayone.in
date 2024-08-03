@@ -56,7 +56,7 @@ const LandingContent = () => {
                 variant="outline"
                 className="text-black"
               >
-                Get a quotation {"-->"}
+                Get a qoute {"-->"}
               </Button>
             </div>
           </div>
