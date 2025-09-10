@@ -24,7 +24,10 @@ const publicRouter = createBrowserRouter(
 				return null
 			}
 		}/>
-	)
+	),
+	{
+		basename: process.env.NODE_ENV === 'production' ? '/zerodayone.in' : undefined
+	}
 );
 
 export type PublicRouter = typeof publicRouter;

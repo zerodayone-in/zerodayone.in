@@ -21,7 +21,10 @@ const privateRouter = createBrowserRouter(
     <Route path="/" loader={privateLoader}>
       <Route path="/" element={<App />} />
     </Route>
-  )
+  ),
+  {
+    basename: process.env.NODE_ENV === 'production' ? '/zerodayone.in' : undefined
+  }
 );
 
 export type PrivateRouter = typeof privateRouter;
