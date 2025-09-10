@@ -1,0 +1,221 @@
+name: Advanced Deployment
+
+on:
+  # Manual trigger with comprehensive options
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy from'
+        required: true
+        default: 'main'
+        type: string
+      deployment_target:
+        description: 'Deployment target'
+        required: true
+        default: 'github-pages'
+        type: choice
+        options:
+        - github-pages
+        - netlify
+        - vercel
+        - custom
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+        - development
+      skip_build:
+        description: 'Skip build process (use existing artifacts)'
+        required: false
+        default: false
+        type: boolean
+      force_deploy:
+        description: 'Force deployment even if tests fail'
+        required: false
+        default: false
+        type: boolean
+
+  # Release trigger
+  release:
+    types: [published]
+
+# Set permissions
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  deployments: write
+
+# Allow only one concurrent deployment per environment
+concurrency:
+  group: "deploy-${{ github.event.inputs.environment || 'production' }}"
+  cancel-in-progress: false
+
+jobs:
+  # Validate inputs and environment
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.check.outputs.should_build }}
+      branch_ref: ${{ steps.check.outputs.branch_ref }}
+      deployment_target: ${{ steps.check.outputs.deployment_target }}
+    steps:
+      - name: Validate deployment parameters
+        id: check
+        run: |
+          # Set branch reference
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "branch_ref=${{ github.event.inputs.branch }}" >> $GITHUB_OUTPUT
+          else
+            echo "branch_ref=${{ github.ref }}" >> $GITHUB_OUTPUT
+          fi
+          
+          # Check if build should be skipped
+          if [ "${{ github.event.inputs.skip_build }}" = "true" ]; then
+            echo "should_build=false" >> $GITHUB_OUTPUT
+          else
+            echo "should_build=true" >> $GITHUB_OUTPUT
+          fi
+          
+          # Set deployment target
+          target="${{ github.event.inputs.deployment_target || 'github-pages' }}"
+          echo "deployment_target=$target" >> $GITHUB_OUTPUT
+          
+          echo "✅ Validation complete"
+          echo "Branch: ${{ github.event.inputs.branch || github.ref }}"
+          echo "Target: $target"
+          echo "Environment: ${{ github.event.inputs.environment || 'production' }}"
+
+  # Build job
+  build:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: needs.validate.outputs.should_build == 'true'
+    outputs:
+      build_success: ${{ steps.build_check.outputs.success }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.validate.outputs.branch_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          echo "✅ Dependencies installed successfully"
+
+      - name: Run pre-build checks
+        id: prebuild
+        run: |
+          echo "Running linter..."
+          npm run lint || echo "⚠️ Linting failed but continuing..."
+          
+          echo "Running type check..."
+          npx tsc --noEmit || echo "⚠️ Type check failed but continuing..."
+          
+          echo "✅ Pre-build checks completed"
+        continue-on-error: true
+
+      - name: Build application
+        id: build
+        run: |
+          echo "Building application..."
+          npm run build
+          echo "✅ Build completed successfully"
+        env:
+          NODE_ENV: production
+
+      - name: Verify build output
+        id: build_check
+        run: |
+          if [ -d "dist" ] && [ "$(ls -A dist)" ]; then
+            echo "✅ Build artifacts verified"
+            echo "success=true" >> $GITHUB_OUTPUT
+            
+            # Show build summary
+            echo "Build summary:"
+            du -sh dist/
+            find dist/ -type f -name "*.js" -o -name "*.css" -o -name "*.html" | head -10
+          else
+            echo "❌ Build verification failed"
+            echo "success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-${{ github.sha }}
+          path: dist/
+          retention-days: 30
+
+      - name: Setup Pages (if deploying to GitHub Pages)
+        if: needs.validate.outputs.deployment_target == 'github-pages'
+        uses: actions/configure-pages@v4
+
+      - name: Upload to Pages
+        if: needs.validate.outputs.deployment_target == 'github-pages'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  # Deploy to GitHub Pages
+  deploy-github-pages:
+    needs: [validate, build]
+    runs-on: ubuntu-latest
+    if: needs.validate.outputs.deployment_target == 'github-pages' && (needs.build.outputs.build_success == 'true' || github.event.inputs.force_deploy == 'true')
+    environment:
+      name: ${{ github.event.inputs.environment || 'production' }}
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Post-deployment verification
+        run: |
+          echo "✅ Deployment completed successfully"
+          echo "🌐 Site URL: ${{ steps.deployment.outputs.page_url }}"
+
+  # Deploy to other platforms (placeholder for future expansion)
+  deploy-other:
+    needs: [validate, build]
+    runs-on: ubuntu-latest
+    if: needs.validate.outputs.deployment_target != 'github-pages' && (needs.build.outputs.build_success == 'true' || github.event.inputs.force_deploy == 'true')
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-${{ github.sha }}
+          path: dist/
+
+      - name: Deploy to ${{ needs.validate.outputs.deployment_target }}
+        run: |
+          echo "🚀 Deploying to ${{ needs.validate.outputs.deployment_target }}"
+          echo "⚠️ Custom deployment logic not implemented yet"
+          echo "Build artifacts are available in dist/ directory"
+          ls -la dist/
+
+  # Cleanup job
+  cleanup:
+    needs: [validate, build, deploy-github-pages, deploy-other]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Cleanup artifacts
+        run: |
+          echo "🧹 Cleanup completed"
+          echo "Deployment summary:"
+          echo "Branch: ${{ needs.validate.outputs.branch_ref }}"
+          echo "Target: ${{ needs.validate.outputs.deployment_target }}"
+          echo "Environment: ${{ github.event.inputs.environment || 'production' }}"

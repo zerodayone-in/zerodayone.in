@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build artifacts
+build/
+out/
+
+# Environment files
+.env
+.env.local
+.env.production
