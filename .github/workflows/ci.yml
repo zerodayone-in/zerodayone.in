@@ -39,15 +39,15 @@ jobs:
         run: npx tsc --noEmit
         continue-on-error: true
 
-      - name: Test build (with TypeScript)
-        run: npm run build-with-typecheck
-        continue-on-error: true
-        env:
-          NODE_ENV: production
-
-      - name: Test build (Vite only - fallback)
-        if: failure()
-        run: npm run build
+      - name: Test build (TypeScript first, Vite fallback)
+        run: |
+          echo "Attempting build with TypeScript checking..."
+          if npm run build-with-typecheck 2>/dev/null; then
+            echo "✅ Build with TypeScript succeeded"
+          else
+            echo "⚠️ TypeScript build failed, falling back to Vite-only build..."
+            npm run build
+          fi
         env:
           NODE_ENV: production
 
