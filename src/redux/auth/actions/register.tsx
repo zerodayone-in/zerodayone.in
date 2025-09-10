@@ -24,7 +24,7 @@ import { ApolloError } from "apollo-client";
 export const register = createAsyncThunk(
   moduleName + "/register",
   async (
-    payload: { email: string; password: string; dob: Date , referral :String,isPoliciesAccepted:Boolean},
+    payload: { email: string; password: string; dob: Date , referral :string,isPoliciesAccepted:boolean},
     { dispatch }
   ) => {
     // Create a promise which will resolve a graphql query to the endpoint http://localhost:8000/accounts/graphql
@@ -33,7 +33,7 @@ export const register = createAsyncThunk(
 
     const REGISTER_MUTATION = prepMutation(createUser, null);
 
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       mutation: REGISTER_MUTATION,
       variables: {
         email: payload.email,
@@ -70,7 +70,7 @@ export const register = createAsyncThunk(
 export const oAuthRegister = createAsyncThunk(
   moduleName + "/o_auth_register",
   async (
-    payload: { oauthToken: String; provider: String; referral?: String },
+    payload: { oauthToken: string; provider: string; referral?: string },
     { dispatch }
   ) => {
     // Create a promise which will resolve a graphql query to the endpoint http://localhost:8000/accounts/graphql
@@ -79,7 +79,7 @@ export const oAuthRegister = createAsyncThunk(
 
     const OAUTH_REGISTER_MUTATION = prepMutation(createOauthUser, null);
 
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       mutation: OAUTH_REGISTER_MUTATION,
       fetchPolicy: 'no-cache',
       variables: {
@@ -117,7 +117,7 @@ export const oAuthRegister = createAsyncThunk(
 
 export const oAuthDob = createAsyncThunk(
   moduleName + "/o_auth_dob",
-  async (payload: { dob?: String }, { dispatch }) => {
+  async (payload: { dob?: string }, { dispatch }) => {
     // Create a promise which will resolve a graphql query to the endpoint http://localhost:8000/accounts/graphql
     // the promise stands for creating the new user
     // and will dispatch the post_login reducer if the response is successful
@@ -127,7 +127,7 @@ export const oAuthDob = createAsyncThunk(
 
     // console.log(payload.dob)
 
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       mutation: DOB_MUTATION,
       variables: {
         dob: payload.dob,
@@ -161,7 +161,7 @@ export const oAuthDob = createAsyncThunk(
 
 export const emailVerify = createAsyncThunk(
   moduleName + "/emailVerify",
-  async (payload: { otp: String }, { dispatch, getState }) => {
+  async (payload: { otp: string }, { dispatch, getState }) => {
     // Create a promise which will resolve a graphql query to the endpoint http://localhost:8000/accounts/graphql
     //promise stands for verifing the users email
     // and will dispatch the post_login reducer if the response is successful
@@ -177,7 +177,7 @@ export const emailVerify = createAsyncThunk(
       `
     );
 
-    var mutation = AuthorizedOtpClient.mutate({
+    const mutation = AuthorizedOtpClient.mutate({
       mutation: EMAIL_VERIFY_MUTATION,
       variables: {
         validate: true,
@@ -204,7 +204,7 @@ export const emailVerify = createAsyncThunk(
           `
         );
 
-        var mutation = AuthorizedOtpClient.mutate({
+        const mutation = AuthorizedOtpClient.mutate({
           mutation: EMAIL_VERIFY_MUTATION_COMPLETE,
           variables: {
             complete: true,
@@ -271,7 +271,7 @@ export const resendOTP = createAsyncThunk(
       `
     );
 
-    var mutation = AuthorizedOtpClient.mutate({
+    const mutation = AuthorizedOtpClient.mutate({
       mutation: RESEND_OTP_MUTATION,
       variables: {
         initiate: true,
@@ -328,7 +328,7 @@ export const validate = createAsyncThunk(
       `
     );
 
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       mutation: VALIDATE_TOKEN_MUTATION,
       context: {
         headers: {
@@ -413,7 +413,7 @@ export const refreshAccessToken = createAsyncThunk(
       `
     );
     console.log("mutation query:", REFRESH_TOKEN_MUTATION);
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       mutation: REFRESH_TOKEN_MUTATION,
       variables: {
         refreshToken: payload.refreshToken,

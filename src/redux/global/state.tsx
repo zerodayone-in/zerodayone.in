@@ -1,6 +1,6 @@
 
 export default interface globalState {
-  developmentUrl: String;
-  productionUrl: String;
-  activeRoute: String;
+  developmentUrl: string;
+  productionUrl: string;
+  activeRoute: string;
 }

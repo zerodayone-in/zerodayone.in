@@ -15,7 +15,7 @@ export const passwordReset = createAsyncThunk(
     const ACCESS_TOKEN = "JWT " + localStorage.getItem("ACCESS_TOKEN");
     const REFRESH_TOKEN =localStorage.getItem("REFRESH_TOKEN")!;
 
-    var RESET_PASSWORD_MUTATION = prepMutation(
+    const RESET_PASSWORD_MUTATION = prepMutation(
         resetPassword,
       ` 
       message
@@ -26,7 +26,7 @@ export const passwordReset = createAsyncThunk(
       `
     );
 
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       mutation: RESET_PASSWORD_MUTATION,
       variables: {
         password:payload.password,

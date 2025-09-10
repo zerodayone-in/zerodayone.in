@@ -16,7 +16,7 @@ export const login = createAsyncThunk(
     // Create a promise which will resolve a graphql query to the endpoint http://localhost:8000/accounts/graphql
     // and will dispatch the post_login reducer if the response is successful
 
-    var LOGIN_MUTATION = prepMutation(
+    const LOGIN_MUTATION = prepMutation(
       obtainToken,
       ` 
         user {
@@ -38,7 +38,7 @@ export const login = createAsyncThunk(
       `
     );
 
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       fetchPolicy: 'no-cache',
       mutation: LOGIN_MUTATION,
       variables: {
@@ -96,7 +96,7 @@ export const socialLogin = createAsyncThunk(
     // and will dispatch the post_login reducer if the response is successful
    
     
-    var LOGIN_MUTATION = prepMutation(
+    const LOGIN_MUTATION = prepMutation(
       obtainSocialToken,
       ` 
       user {
@@ -117,7 +117,7 @@ export const socialLogin = createAsyncThunk(
       `
     );
 
-    var mutation = AccountsClient.mutate({
+    const mutation = AccountsClient.mutate({
       mutation: LOGIN_MUTATION,
       fetchPolicy: 'no-cache',
       variables: {
