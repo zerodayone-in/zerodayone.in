@@ -27,7 +27,7 @@ export function hexToThreeJSVector4(hexColor: string) {
 
 
 function getFile(url: string | URL) {
-  let httpRequest = new XMLHttpRequest();
+  const httpRequest = new XMLHttpRequest();
   httpRequest.open("GET", url, false);
   httpRequest.send();
   if (httpRequest.status == 200) return httpRequest.responseText;

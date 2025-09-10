@@ -10,8 +10,8 @@ export const LoadingPage = () => {
   const [renderLoading, setRenderLoading] = useState(true);
 
   const dispatch = useDispatch();
-  let items = useSelector((state: any) => state.loader.items);
-  let loading = useSelector((state: any) => state.loader.loading);
+  const items = useSelector((state: any) => state.loader.items);
+  const loading = useSelector((state: any) => state.loader.loading);
 
   useEffect(() => {
     if (!loading) {

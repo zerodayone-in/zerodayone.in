@@ -3,7 +3,7 @@ import { Button } from "../../components/ui/button.tsx";
 import "./styles.css";
 
 const LandingContent = () => {
-  let activeRoute = useSelector((state: any) => state.global.activeRoute);
+  const activeRoute = useSelector((state: any) => state.global.activeRoute);
 
   if (activeRoute !== "landing") {
     return <></>;

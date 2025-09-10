@@ -1,5 +1,5 @@
 export default interface authstate {
-  validated:Boolean;
+  validated:boolean;
   authenticated: boolean;
   user: {
     id: string | undefined;
@@ -19,6 +19,6 @@ export default interface authstate {
     ghostcode:string;
     id:string;
   };
-  accessToken:String|null
+  accessToken:string|null
 }
 

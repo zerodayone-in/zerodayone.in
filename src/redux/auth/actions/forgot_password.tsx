@@ -16,14 +16,14 @@ export const forgot_password = createAsyncThunk(
     // {
     //   email:email
     // }
-    var FORGOT_PASSWORD_MUTATION = prepMutation(
+    const FORGOT_PASSWORD_MUTATION = prepMutation(
       recieveOtp, 
       ` 
         message
       `
     );
 
-    var mutation = OtpClient.mutate({
+    const mutation = OtpClient.mutate({
       mutation: FORGOT_PASSWORD_MUTATION,
       variables: {
         email: payload.email,
@@ -64,7 +64,7 @@ export const otp_verify = createAsyncThunk(
     //   email:email,
     //   otp:otp
     // }
-    var OTP_VERIFY_MUTATION = prepMutation(
+    const OTP_VERIFY_MUTATION = prepMutation(
       otpVerify,
       `
       message
@@ -72,7 +72,7 @@ export const otp_verify = createAsyncThunk(
       otp
       `
     );
-    var mutation = OtpClient.mutate({
+    const mutation = OtpClient.mutate({
       mutation: OTP_VERIFY_MUTATION,
       variables: {
         email: payload.email,
@@ -103,7 +103,7 @@ export const otp_verify = createAsyncThunk(
 export const set_new_password = createAsyncThunk(
   moduleName + "/SET_NEW_PASSWORD",
   async (payload: { email: string, new_password: string }, { dispatch , getState}) => {
-    var state = getState() as RootState
+    const state = getState() as RootState
     console.log(state.auth.otp.ghostcode)
     try {
       // Create a promise which will resolve a graphql  query to the endpoint http://localhost:8000/accounts/graphql
